@@ -9,7 +9,7 @@
     <org.opencv.android.JavaCamera2View
         android:id="@+id/opencv_camera_view"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent" />
 
 
 </FrameLayout>

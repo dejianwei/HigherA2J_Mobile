@@ -1,5 +1,6 @@
 package xyz.pengzhihui.androidplugin.Activities;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import com.kyleduo.switchbutton.SwitchButton;
@@ -7,6 +8,7 @@ import com.kyleduo.switchbutton.SwitchButton;
 import org.opencv.core.Mat;
 
 import xyz.pengzhihui.androidplugin.Algorithms.EdgeProcessing;
+import xyz.pengzhihui.androidplugin.Algorithms.ImageGrey;
 import xyz.pengzhihui.androidplugin.Envs.CameraLiveActivityBase;
 import xyz.pengzhihui.androidplugin.R;
 import xyz.pengzhihui.lib_fancy_ui_kit.FancyDrawerCamera.FancyItem;
@@ -42,8 +44,19 @@ public class CameraLiveActivity extends CameraLiveActivityBase
                     }
                 }).build());
 
-        // ...
-
+        ImageGrey grey = new ImageGrey();
+        mCameraSceneItems.put(2, new FancyItem.Builder(getApplicationContext())
+                .setName("灰度化")
+                .setDetails("简单灰度化算法")
+                .setIconBitmapId(R.mipmap.camera_live_icon_blank)
+                .setOnFrameListener(new FancyItem.onFrameListener()
+                {
+                    @Override
+                    public Mat onFrame(Mat frame)
+                    {
+                        return grey.doProcessing(frame);
+                    }
+                }).build());
 
         commitItems(mCameraSceneItems);
     }

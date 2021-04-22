@@ -51,6 +51,10 @@
             android:process=":camera_activity_process">
         </activity>
         <activity
+            android:name=".Activities.TofCameraLiveActivity"
+            android:launchMode="singleTask">
+        </activity>
+        <activity
             android:name=".Activities.GalleryPickActivity"
             android:label="@string/title_activity_gallery_pick">
         </activity>

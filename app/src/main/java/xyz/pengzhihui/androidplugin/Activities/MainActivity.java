@@ -53,6 +53,7 @@ public class MainActivity extends FullScreenActivityBase implements OnPermission
 
     //---------------------Views
     private ParallaxContainer mLiveModeContainer;
+    private ParallaxContainer mTofLiveModeContainer;
     private ParallaxContainer mGalleryModeContainer;
     private ParallaxContainer m3DModeContainer;
     private MaterialDialog mMaterialDialog;
@@ -60,6 +61,7 @@ public class MainActivity extends FullScreenActivityBase implements OnPermission
     public Handler mHandler;
 
     Class<?> liveActivityClass = CameraLiveActivity.class;
+    Class<?> tofLiveActivityClass = TofCameraLiveActivity.class;
     Class<?> galleryActivityClass = GalleryPickActivity.class;
 
 
@@ -77,7 +79,7 @@ public class MainActivity extends FullScreenActivityBase implements OnPermission
         setContentView(R.layout.activity_main);
 
         initViews();
-        animateViews();
+        // animateViews();
 
         CheckPermissions(new String[]{
                 Manifest.permission.CAMERA,
@@ -95,7 +97,7 @@ public class MainActivity extends FullScreenActivityBase implements OnPermission
     protected void onResume()
     {
         super.onResume();
-        animateViews();
+        // animateViews();
     }
 
 
@@ -155,6 +157,36 @@ public class MainActivity extends FullScreenActivityBase implements OnPermission
             }
         });
 
+        mTofLiveModeContainer = findViewById(R.id.mode_tof_live_preview);
+        ParallaxView mTofLiveModeButton = findViewById(R.id.button_tof_live_preview);
+        mTofLiveModeButton.setOnTouchListener(new View.OnTouchListener()
+        {
+            float x = 0;
+            float y = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    x = event.getRawX();
+                    y = event.getRawY();
+                } else if (event.getAction() == MotionEvent.ACTION_UP)
+                {
+                    if (Math.sqrt((event.getRawX() - x) * (event.getRawX() - x)
+                            + (event.getRawY() - y) * (event.getRawY() - y)) < 50)
+                    {
+                        if (tofLiveActivityClass != null)
+                        {
+                            Intent intent = new Intent(MainActivity.this
+                                    , tofLiveActivityClass);
+                            startActivity(intent);
+                        }
+                    }
+                }
+                return false;
+            }
+        });
 
         mGalleryModeContainer = findViewById(R.id.mode_gallery);
         ParallaxView mGalleryModeButton = findViewById(R.id.button_gallery);
