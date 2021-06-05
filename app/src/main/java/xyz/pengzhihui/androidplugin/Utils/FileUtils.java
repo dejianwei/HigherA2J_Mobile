@@ -8,9 +8,19 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 
-public class FileUtils
-{
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import xyz.pengzhihui.androidplugin.Activities.MainActivity;
+
+public class FileUtils {
+    private static final String TAG = FileUtils.class.getSimpleName();
+
     public static String getPathFromUri(final Context context, final Uri uri)
     {
         if (uri == null)
@@ -106,5 +116,28 @@ public class FileUtils
             }
         }
         return null;
+    }
+
+    public static float[][] getDepthImg(InputStream in, int height, int width) {
+        float[][] img = new float[height][width];
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String line = br.readLine();
+            int i = 0;
+            while (line != null && !line.isEmpty()) {
+                String[] arr = line.split(" ");
+                for (int k = 0; k < arr.length; k++) {
+                    img[i][k] = Float.parseFloat(arr[k]);
+                }
+                line = br.readLine();
+                i++;
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return img;
     }
 }

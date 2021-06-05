@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 28
+        minSdkVersion 28
+        targetSdkVersion 29
         applicationId 'xyz.pengzhihui.androidplugin'
 
         externalNativeBuild {
@@ -40,12 +40,14 @@ android {
 
     buildTypes {
         debug {
+            debuggable true
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
             jniDebuggable true
         }
         release {
+            debuggable true
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
@@ -85,6 +87,8 @@ dependencies {
     implementation 'com.kyleduo.switchbutton:library:2.0.0'
     implementation 'com.wang.avi:library:2.1.3'
     implementation 'com.github.flipagram:android-assetcopier:0.1.1'
+    implementation 'org.pytorch:pytorch_android:1.8.0'
+    implementation 'org.pytorch:pytorch_android_torchvision:1.8.0'
     api 'com.github.yalantis:ucrop:2.2.2'
     api 'com.github.chrisbanes:PhotoView:2.1.3'
     api 'com.android.support:recyclerview-v7:28.0.0'
@@ -95,6 +99,8 @@ dependencies {
     implementation(name:'lib_opencv_348', ext:'aar')
     implementation(name:'lib_neural_engine', ext:'aar')
     implementation(name:'lib_fancy_ui_kit_photos_selector', ext:'aar')
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0'
 
 }
 

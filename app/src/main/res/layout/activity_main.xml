@@ -107,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="109dp"
-                            android:text="@string/live_preview_mode_button"
+                            android:text="普通相机"
                             android:textColor="@android:color/white"
                             android:textSize="24sp"
                             android:textStyle="bold"

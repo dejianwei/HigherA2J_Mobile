@@ -17,18 +17,16 @@ public class TofCameraListener implements ImageReader.OnImageAvailableListener{
     public static int WIDTH = 240;
     public static int HEIGHT = 180;
 
-    private static float RANGE_MIN = 200.0f;
-    private static float RANGE_MAX = 1600.0f;
+    private static float RANGE_MIN = 10.0f;
+    private static float RANGE_MAX = 1500.0f;
     private static float CONFIDENCE_FILTER = 0.2f;
 
     private TofCameraLiveActivity depthFrameVisualizer;
-    private int[] rawMask;
+    private float[][] rawMask;
 
     public TofCameraListener(TofCameraLiveActivity depthFrameVisualizer) {
         this.depthFrameVisualizer = depthFrameVisualizer;
-
-        int size = WIDTH * HEIGHT;
-        rawMask = new int[size];
+        rawMask = new float[HEIGHT][WIDTH];
     }
 
 
@@ -49,9 +47,7 @@ public class TofCameraListener implements ImageReader.OnImageAvailableListener{
 
     private void publishRawData() {
         if (depthFrameVisualizer != null) {
-            Bitmap bitmap = convertToRGBBitmap(rawMask);
-            depthFrameVisualizer.onRawDataAvailable(bitmap);
-            bitmap.recycle();
+            depthFrameVisualizer.onRawDataAvailable(rawMask);
         }
     }
 
@@ -61,19 +57,17 @@ public class TofCameraListener implements ImageReader.OnImageAvailableListener{
             for (int x = 0; x < WIDTH; x++) {
                 int index = y * WIDTH + x;
                 short depthSample = shortDepthBuffer.get(index);
-                int newValue = extractRange(depthSample, CONFIDENCE_FILTER);
-                // Store value in the rawMask for visualization
-                rawMask[index] = newValue;
+                rawMask[y][x] = extractRange(depthSample, CONFIDENCE_FILTER);
             }
         }
     }
 
-    private int extractRange(short sample, float confidenceFilter) {
-        int depthRange = (short) (sample & 0x1FFF);
+    private float extractRange(short sample, float confidenceFilter) {
+        float depthRange = (float) (sample & 0x1FFF);
         int depthConfidence = (short) ((sample >> 13) & 0x7);
         float depthPercentage = depthConfidence == 0 ? 1.f : (depthConfidence - 1) / 7.f;
         if (depthPercentage > confidenceFilter) {
-            return normalizeRange(depthRange);
+            return depthRange;
         } else {
             return 0;
         }

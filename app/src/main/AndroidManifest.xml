@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="xyz.pengzhihui.androidplugin"
-          android:installLocation="preferExternal"
-          tools:ignore="MissingLeanbackLauncher">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="xyz.pengzhihui.androidplugin"
+    android:installLocation="preferExternal"
+    tools:ignore="MissingLeanbackLauncher">
 
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true"
-        android:xlargeScreens="true"/>
+        android:xlargeScreens="true" />
 
-    <uses-feature android:glEsVersion="0x00020000"/>
+    <uses-feature android:glEsVersion="0x00020000" />
     <uses-feature
         android:name="android.hardware.touchscreen"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch.distinct"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.software.leanback"
-        android:required="false"/>
+        android:required="false" />
 
     <application
         android:icon="@mipmap/app_icon"
@@ -34,52 +34,47 @@
         android:theme="@style/UnityThemeSelector">
         <activity
             android:name=".Activities.GalleryPickResultActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_gallery_pick_result">
-        </activity>
+            android:label="@string/title_activity_gallery_pick_result"
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".Activities.MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activities.CameraLiveActivity"
             android:launchMode="singleTask"
-            android:process=":camera_activity_process">
-        </activity>
+            android:process=":camera_activity_process"></activity>
         <activity
             android:name=".Activities.TofCameraLiveActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".Activities.GalleryPickActivity"
-            android:label="@string/title_activity_gallery_pick">
-        </activity>
+            android:label="@string/title_activity_gallery_pick"></activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            tools:replace="android:theme"/>
+            tools:replace="android:theme" />
         <activity
             android:name="com.winfo.photoselector.ImageSelectorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme"
-            tools:replace="android:theme"/>
+            tools:replace="android:theme" />
         <activity
             android:name="com.winfo.photoselector.PreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme"
-            tools:replace="android:theme"/>
+            tools:replace="android:theme" />
         <activity
             android:name="com.winfo.photoselector.RvPreviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme"
-            tools:replace="android:theme"/>
-
-
+            tools:replace="android:theme" />
     </application>
 
 </manifest>
