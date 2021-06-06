@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--
     <TextureView
         android:id="@+id/textureview_tof"
         android:layout_width="match_parent"
@@ -15,11 +14,40 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintDimensionRatio="9:12"
         tools:ignore="MissingConstraints" />
-      -->
 
-    <ImageView
-        android:id="@+id/textureview_tof"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/textureview_tof" >
+
+        <com.beardedhen.androidbootstrap.BootstrapButtonGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bootstrapBrand="success"
+            app:bootstrapSize="lg"
+            app:roundedCorners="true" >
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/button_origin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="原始" />
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/button_detect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="检测" />
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/button_estimation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="跟踪" />
+        </com.beardedhen.androidbootstrap.BootstrapButtonGroup>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

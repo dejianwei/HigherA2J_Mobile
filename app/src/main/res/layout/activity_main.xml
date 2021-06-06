@@ -48,15 +48,10 @@
         android:textColor="#d9d9d9"
         android:textSize="14sp"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="306dp" >
-
-        <LinearLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="306dp"
             android:orientation="vertical">
 
             <com.ablanco.parallax.ParallaxContainer
@@ -142,7 +137,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:contentDescription="TODO"
-                            android:src="@drawable/shape_select_live_bg"/>
+                            android:src="@drawable/shape_select_photo_bg"/>
                     </com.ablanco.parallax.LayerView>
 
                     <com.ablanco.parallax.LayerView
@@ -164,7 +159,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="109dp"
-                            android:text="深度预览"
+                            android:text="深度相机"
                             android:textColor="@android:color/white"
                             android:textSize="24sp"
                             android:textStyle="bold"
@@ -178,7 +173,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <com.ablanco.parallax.ParallaxView
                     android:id="@+id/button_gallery"
@@ -235,7 +230,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <com.ablanco.parallax.ParallaxView
                     android:id="@+id/button_3d"
@@ -287,7 +282,5 @@
                 </com.ablanco.parallax.ParallaxView>
             </com.ablanco.parallax.ParallaxContainer>
         </LinearLayout>
-
-    </ScrollView>
 
 </FrameLayout>

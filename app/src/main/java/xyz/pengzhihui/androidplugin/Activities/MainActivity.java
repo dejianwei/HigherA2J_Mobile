@@ -89,7 +89,7 @@ public class MainActivity extends FullScreenActivityBase implements OnPermission
         });
 
         // Copy models to SD card
-        CopyAssets();
+        // CopyAssets();
     }
 
 

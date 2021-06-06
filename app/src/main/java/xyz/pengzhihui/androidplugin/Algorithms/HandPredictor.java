@@ -52,11 +52,9 @@ public class HandPredictor {
         img = prepareImg(img, center, leftbottom, righttop);
         float[] data = new float[img.height() * img.width()];
         img.get(0, 0, data);
-
         Tensor input = Tensor.fromBlob(data, new long[]{1, 1, cropHeight, cropWidth});
         Tensor result = net.forward(IValue.from(input)).toTensor();
         float[] keypoints = result.getDataAsFloatArray();
-
         prepareKeypoints(keypoints, center, leftbottom, righttop);
         return pred_keypoints;
     }
@@ -70,6 +68,7 @@ public class HandPredictor {
         Core.multiply(crop, new Scalar(depth_pixel_ratio), crop);
         Core.subtract(crop, new Scalar(MEAN), crop);
         Core.divide(crop, new Scalar(STD), crop);
+        // Core.normalize(crop, crop, 0, 1, Core.NORM_MINMAX);
         return crop;
     }
 

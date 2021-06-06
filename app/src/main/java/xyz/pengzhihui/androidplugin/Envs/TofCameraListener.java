@@ -66,32 +66,6 @@ public class TofCameraListener implements ImageReader.OnImageAvailableListener{
         float depthRange = (float) (sample & 0x1FFF);
         int depthConfidence = (short) ((sample >> 13) & 0x7);
         float depthPercentage = depthConfidence == 0 ? 1.f : (depthConfidence - 1) / 7.f;
-        if (depthPercentage > confidenceFilter) {
-            return depthRange;
-        } else {
-            return 0;
-        }
-    }
-
-    private int normalizeRange(int range) {
-        float normalized = (float)range - RANGE_MIN;
-        // Clamp to min/max
-        normalized = Math.max(RANGE_MIN, normalized);
-        normalized = Math.min(RANGE_MAX, normalized);
-        // Normalize to 0 to 255
-        normalized = normalized - RANGE_MIN;
-        normalized = normalized / (RANGE_MAX - RANGE_MIN) * 255;
-        return (int)normalized;
-    }
-
-    private Bitmap convertToRGBBitmap(int[] mask) {
-        Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.ARGB_4444);
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                int index = y * WIDTH + x;
-                bitmap.setPixel(x, y, Color.argb(255, 0, mask[index],0));
-            }
-        }
-        return bitmap;
+        return depthPercentage > confidenceFilter ? depthRange : 0;
     }
 }

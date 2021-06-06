@@ -15,16 +15,17 @@ public class HandDetector {
     public static int Z_START = 4;
     public static int Z_END = 5;
 
+    public static int MIN_DEPTH = 10;
+    public static int MAX_DEPTH = 1500;
+
     private float minDepth;
     private float maxDepth;
-    private float fx;
-    private float fy;
+    private float fx = 178.824f;
+    private float fy = 179.291f;
 
-    public HandDetector(float fx, float fy) {
-        this.fx = fx;
-        this.fy = fy;
-        this.maxDepth = 1500;
-        this.minDepth = 10;
+    public HandDetector() {
+        this.maxDepth = MAX_DEPTH;
+        this.minDepth = MIN_DEPTH;
     }
 
     private void setMaxMin(Mat depth) {
@@ -35,8 +36,6 @@ public class HandDetector {
 
     public float[] detect(Mat depth, int[] cube) {
         // setMaxMin(depth);
-        // Imgproc.threshold(depth, depth, this.minDepth, 255, Imgproc.THRESH_TOZERO);
-        // Imgproc.threshold(depth, depth, this.maxDepth, 255, Imgproc.THRESH_TOZERO_INV);
 
         int step = 10;
         float dz = (this.maxDepth - this.minDepth)/ step;
@@ -108,6 +107,11 @@ public class HandDetector {
             bounds[X_END] = (float)Math.floor((com[0] * com[2] / this.fx + cube[0] / 2.) / com[2]*this.fx+0.5);
             bounds[Y_START] = (float)Math.floor((com[1] * com[2] / this.fy - cube[1] / 2.) / com[2]*this.fy+0.5);
             bounds[Y_END] = (float)Math.floor((com[1] * com[2] / this.fy + cube[1] / 2.) / com[2]*this.fy+0.5);
+
+            bounds[X_START] = Math.max(bounds[X_START], 0);
+            bounds[X_END] = Math.min(bounds[X_END], depth.width() - 1);
+            bounds[Y_START] = Math.max(bounds[Y_START], 0);
+            bounds[Y_END] = Math.min (bounds[Y_END], depth.height() - 1);
         }
         return bounds;
     }
