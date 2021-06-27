@@ -84,8 +84,6 @@ public class TofCameraLiveActivity extends Activity {
 
         detector = new HandDetector();
         predictor = new HandPredictor(this);
-
-        // fpsTest();
     }
 
     private void fpsTest() {
@@ -128,6 +126,16 @@ public class TofCameraLiveActivity extends Activity {
         }
     }
 
+    private void drawKeypoints(Bitmap img, float[][] keypoints) {
+        Canvas canvas = new Canvas(img);
+        Paint pan = new Paint();
+        pan.setColor(Color.RED);
+        int radius = 1;
+        for (int i = 0; i < keypoints.length; i++) {
+            canvas.drawCircle(keypoints[i][0], keypoints[i][1], radius, pan);
+        }
+    }
+
     private void drawDetectRect(Mat img, float[] center) {
         float[] bounds = detector.comToBounds(img, center, cube);
         Scalar color = new Scalar(0, 255, 0);
@@ -139,6 +147,19 @@ public class TofCameraLiveActivity extends Activity {
         Imgproc.line(img, p1, p3, color);
         Imgproc.line(img, p3, p4, color);
         Imgproc.line(img, p2, p4, color);
+    }
+
+    private void drawDetectRect(Mat img, Bitmap map, float[] center) {
+        float[] bounds = detector.comToBounds(img, center, cube);
+
+        Canvas canvas = new Canvas(map);
+        Paint pan = new Paint();
+        pan.setColor(Color.RED);
+
+        canvas.drawLine(bounds[HandDetector.X_START], bounds[HandDetector.Y_START], bounds[HandDetector.X_START], bounds[HandDetector.Y_END], pan);
+        canvas.drawLine(bounds[HandDetector.X_START], bounds[HandDetector.Y_START], bounds[HandDetector.X_END], bounds[HandDetector.Y_START], pan);
+        canvas.drawLine(bounds[HandDetector.X_END], bounds[HandDetector.Y_END], bounds[HandDetector.X_START], bounds[HandDetector.Y_END], pan);
+        canvas.drawLine(bounds[HandDetector.X_END], bounds[HandDetector.Y_END], bounds[HandDetector.X_END], bounds[HandDetector.Y_START], pan);
     }
 
     private float[][] predictHand(Mat img) {
@@ -181,18 +202,23 @@ public class TofCameraLiveActivity extends Activity {
         Imgproc.threshold(img, img, HandDetector.MIN_DEPTH, 255, Imgproc.THRESH_TOZERO);
         Imgproc.threshold(img, img, HandDetector.MAX_DEPTH, 255, Imgproc.THRESH_TOZERO_INV);
 
-        if(appMode == APP_MODEL_DETECT) {
-            float[] center = detectHand(img);
-            drawDetectRect(img, center);
-        } else if(appMode == APP_MODEL_ESTIMATION) {
-            float[][] keypoints = predictHand(img);
-            drawKeypoints(img, keypoints);
-        }
+        float[] center = null;
+        float[][] keypoints = null;
+
+        if(appMode == APP_MODEL_DETECT)
+            center = detectHand(img);
+        else if(appMode == APP_MODEL_ESTIMATION)
+            keypoints = predictHand(img);
 
         Core.normalize(img, img, 0, 255, Core.NORM_MINMAX);
         img.convertTo(img, CvType.CV_8UC1);
         Bitmap map = Bitmap.createBitmap(img.width(), img.height(), Bitmap.Config.RGB_565);
         Utils.matToBitmap(img, map);
+
+        if(appMode == APP_MODEL_DETECT)
+            drawDetectRect(img, map, center);
+        else if(appMode == APP_MODEL_ESTIMATION)
+            drawKeypoints(map, keypoints);
 
         Canvas canvas = rawDataView.lockCanvas();
         canvas.drawBitmap(map, defaultBitmapTransform(rawDataView, map), null);
